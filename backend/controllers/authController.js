@@ -7,14 +7,16 @@ exports.register = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   try {
-    // 1. Check if email already exists
+    // 1. Check if user already exists
     const [existing] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-    if (existing.length) return res.status(400).json({ error: 'Email already exists' });
+    if (existing.length > 0) {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
 
-    // 2. Hash the password correctly
+    // 2. Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 3. Store the user with the hashed password
+    // 3. Insert new user
     await db.query(
       'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
       [name, email, hashedPassword, role || 'user']
@@ -26,6 +28,7 @@ exports.register = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
 
 // Login user
 exports.login = async (req, res) => {

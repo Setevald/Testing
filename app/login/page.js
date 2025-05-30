@@ -27,7 +27,6 @@ export default function LoginPage() {
       });
 
       const data = await res.json();
-      console.log("Login response:", data); // ✅ Add this to debug
 
       if (!res.ok) throw new Error(data.error || "Login failed");
 

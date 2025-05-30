@@ -13,48 +13,47 @@ export default function RegisterPage() {
   const router = useRouter()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  e.preventDefault();
+  setIsLoading(true);
 
-    const firstName = e.target.firstName.value;
-    const lastName = e.target.lastName.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const confirmPassword = e.target.confirmPassword.value;
+  const firstName = e.target.firstName.value;
+  const lastName = e.target.lastName.value;
+  const email = e.target.email.value;
+  const password = e.target.password.value;
+  const confirmPassword = e.target.confirmPassword.value;
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      setIsLoading(false);
-      return;
-    }
+  if (password !== confirmPassword) {
+    alert("Passwords do not match.");
+    setIsLoading(false);
+    return;
+  }
 
-    const fullName = `${firstName} ${lastName}`;
+  const fullName = `${firstName} ${lastName}`;
 
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: fullName,
-          email,
-          password,
-          role: "user", // default role
-        }),
-      });
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: fullName,
+        email,
+        password,
+        role: "user", // default role
+      }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error || "Registration failed");
+    if (!res.ok) throw new Error(data.error || "Registration failed");
 
-      // Redirect to login page after successful registration
-      router.push("/login");
-    } catch (err) {
-      alert(err.message || "Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+    // Redirect to login page after successful registration
+    router.push("/login");
+  } catch (err) {
+    alert(err.message || "Something went wrong");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
 
 

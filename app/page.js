@@ -2,7 +2,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle, Clock, MessageSquare, ShieldCheck } from "lucide-react"
 
-
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
